@@ -1,0 +1,45 @@
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+:root{
+    --color-green : green;
+    --color-orange: rgb(241, 70, 44);
+    --font-12px : 12px;
+}
+body{
+    background: var(--color-orange);
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.meal-info-holder{
+    background: white;
+    width: fit-content;
+        padding: 50px;
+    border-radius: 5px;
+}
+.searchBtn{
+    background: var(--color-green);
+    color: black;
+    padding: 3px 20px;
+    font-size: 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.inputAndBtn {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+}
+#searchInput{
+    min-width: 400px;
+    min-height: 36px;
+    border: none;
+    border-bottom: solid 1px black;
+    outline: none;
+}
