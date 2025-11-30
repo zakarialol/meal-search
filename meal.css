@@ -7,6 +7,14 @@
     --color-green : green;
     --color-orange: rgb(241, 70, 44);
     --font-12px : 12px;
+    --fs-button:1.5rem;
+    --image-div-holder-width-160px:160px;
+    --gap-20px:20px;
+    --margin-top-20px:20px;
+    --margin-top-50px:50px;
+    --padding-space:30px;
+    --padding-20px:10px;
+    --border-r10px:10px;
 }
 body{
     background: var(--color-orange);
@@ -17,24 +25,25 @@ body{
     justify-content: center;
 }
 .meal-info-holder{
+    width: 600px;
     background: white;
-    width: fit-content;
-        padding: 50px;
+    padding: var(--padding-space);
     border-radius: 5px;
 }
 .searchBtn{
     background: var(--color-green);
     color: black;
     padding: 3px 20px;
-    font-size: 1.5rem;
+    font-size: var(--fs-button);
     border-radius: 5px;
     cursor: pointer;
+    border:none;
 }
 .inputAndBtn {
     display: flex;
     align-items: center;
-    gap: 20px;
-
+    justify-content: space-between;
+    gap: var(--gap-20px);
 }
 #searchInput{
     min-width: 400px;
@@ -42,4 +51,70 @@ body{
     border: none;
     border-bottom: solid 1px black;
     outline: none;
+}
+img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-position: center;
+}
+.mealsHolder{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--image-div-holder-width-160px), 1fr));
+    gap: var(--gap-20px);
+    margin-top: var(--margin-top-50px);
+    max-height:600px;
+    overflow: auto;
+}
+.imageHolder{
+    border-radius: var(--border-r10px);
+    overflow: hidden;
+}
+.mealDetailHolder .imageHolder{
+    display: grid;
+    width: 50%;
+    margin: 0 auto;
+}
+.mealInfo{
+    text-align: center;
+    letter-spacing: 1px;
+    background: #ffbe46;
+    padding: 5px 0px;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: monospace;
+    cursor: pointer;
+}
+.hidden{
+    display: none;
+}
+.mainDetail{
+    position: relative;
+}
+.mealDetailHolder{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+}
+/* media queries  */
+@media (max-width:670px){
+    :root{
+         --padding-space:10px;
+         --fs-button:0.8;
+    }
+    .meal-info-holder{
+        width: 80%;
+        margin: 0 auto;
+        margin-top: var(--margin-top-20px);
+    }
+    body{
+        display:block;
+    }
+    #searchInput{
+        min-width: 0px;
+        flex: 1;
+    }
 }
