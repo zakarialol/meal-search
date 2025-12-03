@@ -75,10 +75,12 @@ function filterMeal(mealId){
   showMealInfo(chosingMeal)
 }
 //function to show the meal recipe
+let recipInstructionseDiv;
+let btnClose ;
 function showMealInfo(chosingMeal){
 
   let mealDetail = `<div class ='mealDetailHolder'>
-                          <div class='mealInfo ${chosingMeal.strMeal}'>
+                          <div class='currentMeal ${chosingMeal.strMeal}'>
                               <div>
                                       <div class ='imageHolder'>
                                           <img src="${
@@ -92,37 +94,74 @@ function showMealInfo(chosingMeal){
                               </div>
                           </div>
                           <div class ='ingredientHolder'>
-                          </div>            
+                          </div> 
+                          <div class ='recipInstructionseDiv hidden'>
+                                          <div class = 'iconDiv'>
+                                               <button id = ${chosingMeal.idMeal} class ='icon'><i class="fa-solid fa-xmark"></i><button>
+                                          </div>
+                          </div>           
                       </div>
                         `
         // creating ingredient 
         let ingredientDetail = '';
         for(let i=1 ; i <= 20 ; i++){
-          ingredientDetail += `<div class ='ingredient ingredient-${i}'>
+          ingredientDetail += `<li><div class ='ingredient ingredient-${i}'>
                                   <span>${chosingMeal[`strMeasure${i}`]}</span><p> ${chosingMeal[`strIngredient${i}`]}
-                              </p></div>`
+                              </p></div></li>`
         }
         // creating teh recipe button
+        let reciptBtnDivHolder = document.createElement('div')
+        reciptBtnDivHolder.classList = 'divForRecipeBtnHolder'
         let recipeBtn = document.createElement('button')
         recipeBtn.textContent = 'recipe'
         recipeBtn.classList = 'recipeBtn'
+        recipeBtn.id = chosingMeal.idMeal
+        reciptBtnDivHolder.appendChild(recipeBtn)
         //insert the first template to mealdiv
         mainMealDetail.insertAdjacentHTML('afterbegin',mealDetail)
         const mealDetailHolder = document.querySelector('.mealDetailHolder')
         const ingredientHolder = document.querySelector('.ingredientHolder') 
         ingredientHolder.insertAdjacentHTML('beforeend',ingredientDetail)
         let IngredientDivs = document.querySelectorAll('.ingredient')
+        recipInstructionseDiv = document.querySelector('.recipInstructionseDiv')
+        btnClose = document.querySelector('.icon')
         removeEmptyDivs(IngredientDivs)
+        buttonRecipeFunc(recipeBtn,chosingMeal)
+        mealDetailHolder.appendChild(reciptBtnDivHolder)
+        closeDivBtnFunc()
         //appending the button recipe
-        mealDetailHolder.appendChild(recipeBtn)
-
 }
 // function to remove empty divs
 function removeEmptyDivs(divs){
   // console.log(divs)
+  document.querySelectorAll('.ingredient span').forEach(span=>{
+    if(span.textContent.trim() !== ''){
+      span.classList.add('styledSpan')
+    }
+  })
   divs.forEach(div=>{
-    if(div.)
+    const span = div.querySelector('span')
+    const p = div.querySelector('p')
+    if(!span|| span.textContent.trim()=== '' && !p|| p.textContent.trim()=== ''){
+      div.parentElement.remove()
+    }
+  })
+}
+// function when i click on the recipe button 
+function buttonRecipeFunc(Btn,chosingMeal,){
+  let MealInstructionseDiv =`<p>${chosingMeal.strInstructions}</p>` 
+  Btn.addEventListener('click',()=>{
+    recipInstructionseDiv.classList.remove('hidden')
+    recipInstructionseDiv.insertAdjacentHTML('beforeend',MealInstructionseDiv)
   })
 }
 
+//function for btnclose
+function closeDivBtnFunc(){
+  btnClose.addEventListener('click',()=>{
+    console.log('you just presset the close button')
+        recipInstructionseDiv.classList.add('hidden')
+    // btnClose.parentElement.parentElement.remove()
+  })
+}
 
