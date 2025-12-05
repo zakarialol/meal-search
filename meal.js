@@ -4,6 +4,12 @@ const mealsHolder = document.querySelector(".mealsHolder");
 const mainMealDetail = document.querySelector(".mainDetail");
 const TheMainDiv = document.querySelector('.meal-info-holder')
 let storeMealData;
+let recipInstructionseDiv;
+let instractionHolder;
+let closeBtnOne;
+let btnClose;
+let instractionTmplate;
+let mealDetailHolder;
 searchBtn.addEventListener("click", mealInfoFunc);
 function mealInfoFunc() {
   let mealName = inputSearch.value.trim();
@@ -22,27 +28,24 @@ function mealInfoFunc() {
     })
     .then((res) => {
       showResultInTheDomFunc(res);
-      showRecipeFunc(storeMealData);
     })
     .catch(() => showErr("meal not found"))
     .finally(() => (searchBtn.disabled = false));
 }
 // function to show error message
 function showErr(msg) {
-  // mainMealDetail.textContent = ''
   mealsHolder.classList.remove('hidden')
   mealsHolder.innerHTML = `<h3>${msg}</h3>`
 }
 // functon to make meal structer
 function showMealsFunc(data) {
-  // storeMealData = data
   let mealsStructers = "";
   let mealsInfo = Object.values(data.meals);
   storeMealData = mealsInfo;
   mealsInfo.forEach((Meal, index) => {
-    mealsStructers += `<div class='${Meal.strMeal}' id='${"meal-" + index}'>
+  mealsStructers += `<div class='${Meal.strMeal}' id='${"meal-" + index}'>
                                 <div class ='imageHolder'>
-                                    <img src="${Meal.strMealThumb}" alt="${
+                                <img src="${Meal.strMealThumb}" alt="${
       Meal.strMeal
     }">
                                 </div>
@@ -58,20 +61,29 @@ function showMealsFunc(data) {
 }
 //functon to show the result in the dom
 function showResultInTheDomFunc(data) {
+  if(recipInstructionseDiv || mealDetailHolder){
+    console.log('he has it for sure')
+    recipInstructionseDiv?.remove()
+    mealDetailHolder?.remove()
+  }else{
+    console.log('not exisit')
+  }
   mealsHolder.classList.remove("hidden");
   mealsHolder.innerHTML = data;
 }
 
 // function to show how to make the dish
-function showRecipeFunc(mealsData) {
-  const clickedMeal = document.querySelectorAll(".clickMeal");
-  clickedMeal.forEach((meal) => {
-    meal.addEventListener("click", () => {
-      const mealId = meal.id;
-      filterMeal(mealId);
-    });
-  });
+function showRecipeFunc() {
+  mealsHolder.addEventListener('click',(e)=>{
+    let clickedMeal = e.target.closest('.clickMeal')
+    console.log('this the start *_*')
+    console.log(clickedMeal,'clicked Meal **********############************')
+    if(!clickedMeal) return;
+    let mealId = clickedMeal.id
+    filterMeal(mealId)
+  })
 }
+showRecipeFunc()
 //function to filter the meal
 function filterMeal(mealId) {
   chosingMeal = storeMealData.find((meal) => {
@@ -80,12 +92,6 @@ function filterMeal(mealId) {
   showMealInfo(chosingMeal);
 }
 //function to show the meal recipe
-let recipInstructionseDiv;
-let instractionHolder;
-let closeBtnOne;
-let btnClose;
-let instractionTmplate;
-let mealDetailHolder;
 function showMealInfo(chosingMeal) {
   let mealDetail = `<div class ='mealDetailHolder'>
                             <div class = 'iconDiv'>
@@ -141,19 +147,15 @@ function showMealInfo(chosingMeal) {
   const ingredientHolder = document.querySelector(".ingredientHolder .detail");
   closeBtnOne = document.querySelector(".iconCloseOne");
   ingredientHolder.insertAdjacentHTML("beforeend", ingredientDetail);
-  // ingredientHolder.insertAdjacentHTML("beforeend", reciptBtnDivHolder);
   let IngredientDivs = document.querySelectorAll(".ingredient");
-  recipInstructionseDiv = document.querySelector(".recipInstructionseDiv");
   btnClose = document.querySelector(".icon");
   removeEmptyDivs(IngredientDivs);
   buttonRecipeFunc(recipeBtn, chosingMeal);
   ingredientContainer.appendChild(reciptBtnDivHolder);
   closeDivBtnFunc();
-  //appending the button recipe
 }
 // function to remove empty divs
 function removeEmptyDivs(divs) {
-  // console.log(divs)
   document.querySelectorAll(".ingredient span").forEach((span) => {
     if (span.textContent.trim() !== "") {
       span.classList.add("styledSpan");
@@ -163,10 +165,9 @@ function removeEmptyDivs(divs) {
     const span = div.querySelector("span");
     const p = div.querySelector("p");
     if (
-      !span ||
-      (span.textContent.trim() === "" && !p) ||
+      span.textContent.trim() === "" && 
       p.textContent.trim() === ""
-    ) {
+    ){
       div.parentElement.remove();
     }
   });
@@ -176,11 +177,10 @@ let MealInstructionseDiv;
 function buttonRecipeFunc(recipeBtn, chosingMeal) {
   MealInstructionseDiv = `<p>${chosingMeal.strInstructions}</p>`;
   recipeBtn.addEventListener("click", () => {
-    // recipInstructionseDiv.classList.remove("hidden");
     mainMealDetail.insertAdjacentHTML('beforeend',instractionTmplate)
+    recipInstructionseDiv = document.querySelector(".recipInstructionseDiv");
     instractionHolder = document.querySelector(".instractionHolder");
     instractionHolder.insertAdjacentHTML("beforeend", MealInstructionseDiv);
-    // instractionHolder.textContent = "";
   });
 }
 
