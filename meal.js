@@ -177,7 +177,7 @@ function buttonRecipeFunc(recipeBtn, chosingMeal) {
   MealInstructionseDiv = `<p>${chosingMeal.strInstructions}</p>`;
   recipeBtn.addEventListener("click", () => {
     // recipInstructionseDiv.classList.remove("hidden");
-    mealDetailHolder.insertAdjacentHTML('beforeend',instractionTmplate)
+    mainMealDetail.insertAdjacentHTML('beforeend',instractionTmplate)
     instractionHolder = document.querySelector(".instractionHolder");
     instractionHolder.insertAdjacentHTML("beforeend", MealInstructionseDiv);
     // instractionHolder.textContent = "";
